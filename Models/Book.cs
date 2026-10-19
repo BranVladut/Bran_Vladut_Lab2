@@ -22,5 +22,8 @@ namespace Bran_Vladut_Lab2.Models
 
         [DataType(DataType.Date)]
         public DateTime PublishingDate { get; set; }
+
+        public ICollection<BookCategory>? BookCategories { get; set; }
+
     }
 }
