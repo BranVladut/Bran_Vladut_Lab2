@@ -18,14 +18,7 @@ namespace Bran_Vladut_Lab2.Pages.Books
 
         public IActionResult OnGet()
         {
-            var authorList = _context.Author.Select(x => new
-            {
-                x.ID,
-                FullName = x.LastName + " " + x.FirstName
-            });
-
-            ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
-            ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID", "PublisherName");
+            PopulateDropdowns();
 
             var book = new Book();
             book.BookCategories = new List<BookCategory>();
@@ -49,11 +42,32 @@ namespace Bran_Vladut_Lab2.Pages.Books
                 }
             }
 
+            // Dacă validarea eșuează, repopulăm listele și returnăm pagina fără să piardă datele
+            if (!ModelState.IsValid)
+            {
+                PopulateDropdowns();
+                PopulateAssignedCategoryData(_context, Book);
+                return Page();
+            }
+
             Book.BookCategories = newBook.BookCategories;
             _context.Book.Add(Book);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
+        }
+
+        // Metodă ajutătoare pentru a popula dropdown-urile de autori și edituri
+        private void PopulateDropdowns()
+        {
+            var authorList = _context.Author.Select(x => new
+            {
+                x.ID,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
+            ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID", "PublisherName");
         }
     }
 }

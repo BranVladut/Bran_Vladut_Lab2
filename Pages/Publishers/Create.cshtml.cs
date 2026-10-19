@@ -26,9 +26,10 @@ namespace Bran_Vladut_Lab2.Pages_Publishers
         [BindProperty]
         public Publisher Publisher { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Publisher.Books");
+
             if (!ModelState.IsValid)
             {
                 return Page();
