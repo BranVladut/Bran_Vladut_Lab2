@@ -7,4 +7,7 @@ public class Bran_Vladut_Lab2Context(DbContextOptions<Bran_Vladut_Lab2Context> o
     public DbSet<Bran_Vladut_Lab2.Models.Publisher> Publisher { get; set; }
 
     public DbSet<Bran_Vladut_Lab2.Models.Author> Author { get; set; }
+
+    public DbSet<Bran_Vladut_Lab2.Models.Member> Member { get; set; } = default!;
+    public DbSet<Bran_Vladut_Lab2.Models.Borrowing> Borrowing { get; set; } = default!;
 }
